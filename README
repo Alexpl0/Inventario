@@ -1,0 +1,35 @@
+# Inventario
+
+## Descripción
+
+El proyecto **Inventario** es una aplicación web avanzada diseñada para gestionar y controlar el inventario de una empresa. Proporciona una interfaz intuitiva y fácil de usar para realizar un seguimiento de los productos y gestionar las existencias 
+
+## Características
+
+- **Gestión de Productos**: Permite agregar, editar y eliminar productos del inventario.
+- **Interfaz de Usuario Intuitiva**: Diseñada para ser fácil de usar, con una navegación clara y accesible.
+
+## Requisitos del Sistema
+
+- **Base de Datos**: PostgreSQL
+- **Lenguaje de Programación**: Java 23(SpringBoot, Maven)
+- **Navegador Web**: Chrome, Firefox, Safari
+
+
+## Uso
+
+1. Acceder a la aplicación en el navegador web:
+    ```
+    http://localhost:8000
+    ```
+2. Navegar por las diferentes secciones para gestionar el inventario.
+
+## Licencia
+
+Este proyecto está licenciado bajo la Licencia MIT. Consulte el archivo `LICENSE` para obtener más detalles.
+
+## Contacto
+
+Para más información, por favor contacte a:
+- **Nombre del Desarrollador**: Alejandro Pérez
+- **Correo Electrónico**: j.alejandro.pl@gmail.com
