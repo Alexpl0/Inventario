@@ -1,6 +1,5 @@
 package com.inventario.inventario.Producto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import com.inventario.inventario.Categoria.Categoria;
@@ -10,7 +9,6 @@ import com.inventario.inventario.Ubicacion.Ubicacion;
 @Table(name = "productos")
 @Getter
 @Setter
-@AllArgsConstructor
 public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

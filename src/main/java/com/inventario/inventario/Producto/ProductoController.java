@@ -3,10 +3,6 @@ package com.inventario.inventario.Producto;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.inventario.inventario.Categoria.Categoria;
-import com.inventario.inventario.Categoria.CategoriaRepository;
-import com.inventario.inventario.Ubicacion.Ubicacion;
-import com.inventario.inventario.Ubicacion.UbicacionRepository;
 
 import java.util.List;
 
@@ -23,12 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class ProductoController {
     @Autowired
     private ProductoRepository productoRepository;
-
-    @Autowired
-    private CategoriaRepository categoriaRepository;
-
-    @Autowired
-    private UbicacionRepository ubicacionRepository;
 
     @GetMapping
     public List<Producto> getProductos(){

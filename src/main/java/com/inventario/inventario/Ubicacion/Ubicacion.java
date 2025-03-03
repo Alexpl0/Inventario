@@ -1,6 +1,5 @@
 package com.inventario.inventario.Ubicacion;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.List;
@@ -10,7 +9,6 @@ import com.inventario.inventario.Producto.Producto;
 @Table(name = "ubicaciones")
 @Getter
 @Setter
-@AllArgsConstructor
 public class Ubicacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
