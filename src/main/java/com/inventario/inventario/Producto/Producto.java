@@ -1,7 +1,14 @@
 package com.inventario.inventario.Producto;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.inventario.inventario.Categoria.Categoria;
 import com.inventario.inventario.Ubicacion.Ubicacion;
 
@@ -16,10 +23,6 @@ public class Producto {
 
     @Column(name = "nombre")
     private String nombre;
-
-    @ManyToOne
-    @JoinColumn(name = "categoria_id")
-    private Categoria categoria;
 
     @Column(name = "marca")
     private String marca;
@@ -36,11 +39,24 @@ public class Producto {
     @Column(name = "precio")
     private double precio;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "ubicacion_id")
     private Ubicacion ubicacion;
 
 
+    //Sirve para que el producto pueda tener una categoria
+    @JsonBackReference
+    @ManyToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL) 
+    @JoinColumn(name = "categoria_id", referencedColumnName = "id")
+    private Categoria categoria;
+
+
+    
+    //@OneToMany(mappedBy = "productos", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //private Categoria categorias;
+    
+    
     /*
     //Sirve para que el producto pueda tener una categoria
     // Define un campo privado para almacenar el ID de la categoría del producto

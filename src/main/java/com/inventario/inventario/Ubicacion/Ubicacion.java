@@ -3,6 +3,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.List;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.inventario.inventario.Producto.Producto;
 
 @Entity
@@ -17,6 +20,7 @@ public class Ubicacion {
     @Column(name = "nombre")
     private String nombre;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "ubicacion")
-    private List<Producto> productos;
+    private Set<Producto> productos;
 }
