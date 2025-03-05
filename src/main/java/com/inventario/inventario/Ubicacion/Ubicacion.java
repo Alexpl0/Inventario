@@ -2,16 +2,20 @@ package com.inventario.inventario.Ubicacion;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import java.util.List;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.inventario.inventario.Producto.Producto;
 
 @Entity
 @Table(name = "ubicaciones")
 @Getter
 @Setter
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
+
 public class Ubicacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +24,6 @@ public class Ubicacion {
     @Column(name = "nombre")
     private String nombre;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "ubicacion")
     private Set<Producto> productos;
 }

@@ -1,16 +1,10 @@
 package com.inventario.inventario.Categoria;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.util.List;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.inventario.inventario.Producto.Producto;
 
@@ -18,6 +12,10 @@ import com.inventario.inventario.Producto.Producto;
 @Table(name = "categorias")
 @Getter
 @Setter
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
+
 public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,8 +27,8 @@ public class Categoria {
     @Column(name = "descripcion")
     private String descripcion;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //@JsonManagedReference
+    @OneToMany(mappedBy = "categoria")
     private Set<Producto> productos;
 
     

@@ -1,13 +1,10 @@
 package com.inventario.inventario.Producto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.inventario.inventario.Categoria.Categoria;
 import com.inventario.inventario.Ubicacion.Ubicacion;
@@ -16,6 +13,10 @@ import com.inventario.inventario.Ubicacion.Ubicacion;
 @Table(name = "productos")
 @Getter
 @Setter
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
+
 public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,51 +40,16 @@ public class Producto {
     @Column(name = "precio")
     private double precio;
 
-    @JsonBackReference
-    @ManyToOne
+ 
+    @ManyToOne  
     @JoinColumn(name = "ubicacion_id")
     private Ubicacion ubicacion;
 
 
     //Sirve para que el producto pueda tener una categoria
-    @JsonBackReference
-    @ManyToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL) 
-    @JoinColumn(name = "categoria_id", referencedColumnName = "id")
+    //@JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
     private Categoria categoria;
-
-
-    
-    //@OneToMany(mappedBy = "productos", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    //private Categoria categorias;
-    
-    
-    /*
-    //Sirve para que el producto pueda tener una categoria
-    // Define un campo privado para almacenar el ID de la categoría del producto
-    private Long categoriaId;
-
-    // Método getter para obtener el ID de la categoría del producto
-    public Long getCategoriaId() {
-        return categoriaId;
-    }
-
-    // Método setter para establecer el ID de la categoría del producto
-    public void setCategoriaId(Long categoriaId) {
-        this.categoriaId = categoriaId;
-    }
-
-    // Define un campo privado para almacenar el ID de la ubicación del producto
-    private Long ubicacionId;
-
-    // Método getter para obtener el ID de la ubicación del producto
-    public Long getUbicacionId() {
-        return ubicacionId;
-    }
-
-    // Método setter para establecer el ID de la ubicación del producto
-    public void setUbicacionId(Long ubicacionId) {
-        this.ubicacionId = ubicacionId;
-    }
-        */
 }
 
