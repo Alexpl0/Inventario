@@ -3,7 +3,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.Set;
+import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.inventario.inventario.Categoria.Categoria;
@@ -13,9 +15,7 @@ import com.inventario.inventario.Ubicacion.Ubicacion;
 @Table(name = "productos")
 @Getter
 @Setter
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 
 public class Producto {
     @Id
@@ -40,6 +40,10 @@ public class Producto {
     @Column(name = "precio")
     private double precio;
 
+    @Column(name = "fecha")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate fecha;
+
  
     @ManyToOne  
     @JoinColumn(name = "ubicacion_id")
@@ -51,5 +55,6 @@ public class Producto {
     @ManyToOne
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
+
 }
 

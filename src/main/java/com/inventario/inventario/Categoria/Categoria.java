@@ -5,6 +5,7 @@ import lombok.Setter;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.inventario.inventario.Producto.Producto;
 
@@ -12,9 +13,7 @@ import com.inventario.inventario.Producto.Producto;
 @Table(name = "categorias")
 @Getter
 @Setter
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 
 public class Categoria {
     @Id
@@ -27,7 +26,7 @@ public class Categoria {
     @Column(name = "descripcion")
     private String descripcion;
 
-    //@JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "categoria")
     private Set<Producto> productos;
 
