@@ -32,26 +32,27 @@ public class InventarioController {
     }
 
     @PutMapping("/{id}")
-    public Inventario updateInventario(@PathVariable Long id, @RequestBody Inventario inventario){
-        Inventario inventarioToUpdate = inventarioRepository.findById(id).get();
-        inventarioToUpdate.setNombre(inventario.getNombre());
-        inventarioToUpdate.setCategoria(inventario.getCategoria());
-        inventarioToUpdate.setUbicacion(inventario.getUbicacion());
-        inventarioToUpdate.setMarca(inventario.getMarca()); 
-        inventarioToUpdate.setModelo(inventario.getModelo());
-        inventarioToUpdate.setEstado(inventario.getEstado());
-        inventarioToUpdate.setDescripcion(inventario.getDescripcion());
-        inventarioToUpdate.setPrecio(inventario.getPrecio());
-        
+    public Inventario updateInventario(@PathVariable Long id, @RequestBody Inventario inventario) {
+        Inventario inventarioToUpdate = inventarioRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Inventario no encontrado con ID: " + id));
+
+        inventarioToUpdate.setEstado_fisico(inventario.getEstado_fisico());
+        inventarioToUpdate.setEstado_operativo(inventario.getEstado_operativo());
+        inventarioToUpdate.setObservaciones(inventario.getObservaciones());
+        inventarioToUpdate.setFecha(inventario.getFecha());
+
+        if (inventario.getProducto() != null && inventario.getProducto().getId() != null) {
+            inventarioToUpdate.setProducto(inventario.getProducto());
+        }
+
         return inventarioRepository.save(inventarioToUpdate);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteInventario(@PathVariable Long id){
-        try {
-            inventarioRepository.deleteById(id);
-        } catch (Exception e) {
-            System.out.println("Error al eliminar el inventario");
+    public void deleteInventario(@PathVariable Long id) {
+        if (!inventarioRepository.existsById(id)) {
+            throw new RuntimeException("Inventario no encontrado con ID: " + id);
         }
+        inventarioRepository.deleteById(id);
     }
 }

@@ -3,6 +3,13 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.inventario.inventario.Producto.Producto;
+
 @Entity
 @Table(name = "inventario")
 @Getter
@@ -12,28 +19,22 @@ public class Inventario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nombre")
-    private String nombre;
+    @Column(name = "estado_fisico")
+    private String estado_fisico;
 
-    @Column(name = "categoria")
-    private String categoria;
+    @Column(name = "estado_operativo")
+    private String estado_operativo;
 
-    @Column(name = "marca")
-    private String marca;
+    @Column(name = "observaciones")
+    private String observaciones;
 
-    @Column(name = "modelo")
-    private String modelo;
+    @Column(name = "fecha")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate fecha;
 
-    @Column(name = "estado")
-    private String estado;
-
-    @Column(name = "descripcion")
-    private String descripcion;
-
-    @Column(name = "precio")
-    private double precio;
-
-    @Column(name = "ubicacion")
-    private String ubicacion;
-    
+    @ManyToOne
+    @JoinColumn(name = "producto_id") // Llave foránea que apunta al producto
+    private Producto producto;
 }
+
+

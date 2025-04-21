@@ -26,18 +26,30 @@ public class ProductoController {
     } 
 
     @GetMapping("/{id}")
-    public Producto getProductoById(@PathVariable Long id){
-        return productoRepository.findById(id).get();
+    public Producto getProductoById(@PathVariable Long id) {
+        return productoRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
     }
 
-    @PostMapping
+    @PostMapping // Crea un nuevo producto
     public Producto createProducto(@RequestBody Producto producto){
         return productoRepository.save(producto);
+
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}") // Actualiza un producto existente o crea uno nuevo si no existe
+    public Producto createOrUpdateProducto(@PathVariable Long id, @RequestBody Producto producto) {
+        if (productoRepository.existsById(id)) {
+            return updateProducto(id, producto);
+        } else {
+            producto.setId(id); // Asigna el ID al nuevo producto
+            return productoRepository.save(producto);
+        }
+    }
+
     public Producto updateProducto(@PathVariable Long id, @RequestBody Producto producto){
-        Producto productoToUpdate = productoRepository.findById(id).get();
+        Producto productoToUpdate = productoRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
         productoToUpdate.setNombre(producto.getNombre());
         productoToUpdate.setCategoria(producto.getCategoria());
         productoToUpdate.setUbicacion(producto.getUbicacion());
@@ -46,30 +58,20 @@ public class ProductoController {
         productoToUpdate.setEstado(producto.getEstado());
         productoToUpdate.setDescripcion(producto.getDescripcion());
         productoToUpdate.setPrecio(producto.getPrecio());
-        
+        productoToUpdate.setFecha(producto.getFecha());
         return productoRepository.save(productoToUpdate);
     }
     
     @DeleteMapping("/{id}")
-    public void deleteProducto(@PathVariable Long id){
+    public void deleteProducto(@PathVariable Long id) {
+        if (!productoRepository.existsById(id)) {
+            throw new RuntimeException("Producto no encontrado con ID: " + id);
+        }
+        
         try {
             productoRepository.deleteById(id);
         } catch (Exception e) {
-            System.out.println("Error al eliminar el producto");
+            throw new RuntimeException("Error al eliminar el producto: " + e.getMessage());
         }
     }
 }
-
-/*
- * // Obtener la categoría actual del producto
-        Categoria categoria = categoriaRepository.findById(productoToUpdate.getCategoriaId()).orElse(null);
-        if (categoria != null) {
-            productoToUpdate.setCategoriaId(categoria.getId());
-        }
-
-        // Obtener la ubicación actual del producto
-        Ubicacion ubicacion = ubicacionRepository.findById(productoToUpdate.getUbicacionId()).orElse(null);
-        if (ubicacion != null) {
-            productoToUpdate.setUbicacionId(ubicacion.getId());
-        }
- */

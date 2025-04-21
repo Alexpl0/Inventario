@@ -7,16 +7,16 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.inventario.inventario.Categoria.Categoria;
 import com.inventario.inventario.Ubicacion.Ubicacion;
+import com.inventario.inventario.InvtentarioGeneral.Inventario;
 
 @Entity
 @Table(name = "productos")
 @Getter
 @Setter
-//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-
 public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,17 +44,17 @@ public class Producto {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate fecha;
 
- 
-    @ManyToOne  
-    @JoinColumn(name = "ubicacion_id")
+    
+    @ManyToOne
+    @JoinColumn(name = "ubicacion_id") // Muchos productos pueden estar en una ubicación
     private Ubicacion ubicacion;
 
-
-    //Sirve para que el producto pueda tener una categoria
-    //@JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "categoria_id")
+    @JoinColumn(name = "categoria_id") // Muchos productos pueden tener una categoría
     private Categoria categoria;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Inventario> inventarios; // Un producto puede tener múltiples entradas de inventario
 }
 
