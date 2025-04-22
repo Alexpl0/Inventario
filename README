@@ -1,35 +1,167 @@
-# Inventario
+# Sistema de Gestión de Inventario - Documentación
 
-## Descripción
+Esta es una documentación completa del Sistema de Gestión de Inventario, una aplicación Spring Boot para administrar productos, categorías, ubicaciones, salas y reservaciones.
 
-El proyecto **Inventario** es una aplicación web avanzada diseñada para gestionar y controlar el inventario de una empresa. Proporciona una interfaz intuitiva y fácil de usar para realizar un seguimiento de los productos y gestionar las existencias 
+## Descripción General del Proyecto
 
-## Características
+Esta es una API RESTful construida con Spring Boot que proporciona endpoints para la gestión de inventario, incluyendo:
 
-- **Gestión de Productos**: Permite agregar, editar y eliminar productos del inventario.
-- **Interfaz de Usuario Intuitiva**: Diseñada para ser fácil de usar, con una navegación clara y accesible.
+- Gestión de productos
+- Gestión de categorías
+- Seguimiento de ubicaciones
+- Sistema de reserva de salas
+- Seguimiento del estado del inventario
 
-## Requisitos del Sistema
+## Tecnologías Utilizadas
 
-- **Base de Datos**: PostgreSQL
-- **Lenguaje de Programación**: Java 23(SpringBoot, Maven)
-- **Navegador Web**: Chrome, Firefox, Safari
+- **Java 23**
+- **Spring Boot 3.4.3**
+- **Spring Data JPA**
+- **PostgreSQL** (en contenedor Docker)
+- **Docker Compose** para entorno de desarrollo
+- **Lombok** para reducir código repetitivo
+- **Maven** como herramienta de construcción
 
+## Estructura de la Base de Datos
 
-## Uso
+La aplicación utiliza varias entidades interconectadas:
 
-1. Acceder a la aplicación en el navegador web:
-    ```
-    http://localhost:8000
-    ```
-2. Navegar por las diferentes secciones para gestionar el inventario.
+- **Producto**: Representa elementos físicos en inventario
+- **Categoria**: Clasificación de productos
+- **Ubicacion**: Ubicación física de los productos
+- **Salas**: Salas que pueden ser reservadas
+- **Reservaciones**: Registros de reservas de salas
+- **Inventario**: Registros del estado de inventario para productos
 
-## Licencia
+## Endpoints de la API
 
-Este proyecto está licenciado bajo la Licencia MIT. Consulte el archivo `LICENSE` para obtener más detalles.
+### API de Productos (`/productos`)
+- `GET /productos` - Listar todos los productos
+- `GET /productos/{id}` - Obtener producto por ID
+- `POST /productos` - Crear nuevo producto
+- `PUT /productos/{id}` - Actualizar producto existente
+- `DELETE /productos/{id}` - Eliminar un producto
 
-## Contacto
+### API de Categorías (`/categorias`)
+- `GET /categorias` - Listar todas las categorías
+- `GET /categorias/{id}` - Obtener categoría por ID
+- `POST /categorias` - Crear nueva categoría
+- `PUT /categorias/{id}` - Actualizar categoría existente
+- `DELETE /categorias/{id}` - Eliminar una categoría
 
-Para más información, por favor contacte a:
-- **Nombre del Desarrollador**: Alejandro Pérez
-- **Correo Electrónico**: j.alejandro.pl@gmail.com
+### API de Ubicaciones (`/ubicaciones`)
+- `GET /ubicaciones` - Listar todas las ubicaciones
+- `GET /ubicaciones/{id}` - Obtener ubicación por ID
+- `POST /ubicaciones` - Crear nueva ubicación
+- `PUT /ubicaciones/{id}` - Actualizar ubicación existente
+- `DELETE /ubicaciones/{id}` - Eliminar una ubicación
+
+### API de Salas (`/salas`)
+- `GET /salas` - Listar todas las salas
+- `GET /salas/{id}` - Obtener sala por ID
+- `POST /salas` - Crear nueva sala
+- `PUT /salas/{id}` - Actualizar sala existente
+- `DELETE /salas/{id}` - Eliminar una sala
+
+### API de Reservaciones (`/reservaciones`)
+- `GET /reservaciones` - Listar todas las reservaciones
+- `GET /reservaciones/{id}` - Obtener reservación por ID
+- `POST /reservaciones` - Crear nueva reservación
+- `PUT /reservaciones/{id}` - Actualizar reservación existente
+- `DELETE /reservaciones/{id}` - Eliminar una reservación
+
+### API de Inventario (`/inventario`)
+- `GET /inventario` - Listar todos los registros de inventario
+- `GET /inventario/{id}` - Obtener registro de inventario por ID
+- `POST /inventario` - Crear nuevo registro de inventario
+- `PUT /inventario/{id}` - Actualizar registro de inventario existente
+- `DELETE /inventario/{id}` - Eliminar un registro de inventario
+
+## Relaciones entre Entidades
+
+- **Producto** tiene una relación ManyToOne con **Categoria** y **Ubicacion**
+- **Producto** tiene una relación OneToMany con **Inventario**
+- **Salas** tiene una relación OneToMany con **Reservaciones**
+
+## Instrucciones de Configuración
+
+### Requisitos Previos
+
+- Java 23 JDK
+- Docker y Docker Compose
+- Maven
+
+### Ejecutar la Aplicación
+
+1. Clonar el repositorio
+2. Iniciar la base de datos PostgreSQL:
+   ```
+   docker-compose up -d
+   ```
+3. Ejecutar la aplicación Spring Boot:
+   ```
+   ./mvnw spring-boot:run
+   ```
+   o en Windows:
+   ```
+   mvnw.cmd spring-boot:run
+   ```
+
+### Configuración de la Base de Datos
+
+La aplicación se conecta a una base de datos PostgreSQL con la siguiente configuración:
+- **URL**: jdbc:postgresql://localhost:5432/postgres
+- **Usuario**: postgres
+- **Contraseña**: postgres
+- **Modo DDL**: update
+
+## Compartición de Recursos entre Orígenes (CORS)
+
+La aplicación está configurada para permitir solicitudes de origen cruzado desde cualquier origen, admitiendo métodos GET, POST, PUT, DELETE y OPTIONS con cualquier encabezado.
+
+## Compilación para Producción
+
+Para compilar la aplicación para producción:
+
+```
+./mvnw clean package
+```
+
+Esto creará un archivo JAR en el directorio target.
+
+## Estructura del Proyecto
+
+```
+src/
+  main/
+    java/
+      com/
+        inventario/
+          Categoria/              # Clases relacionadas con categorías
+          InvtentarioGeneral/     # Clases de estado de inventario
+          Producto/               # Clases relacionadas con productos
+          Reservaciones/          # Clases de reservaciones
+          Salas/                  # Clases de salas
+          Ubicacion/              # Clases de ubicación
+          InventarioApplication   # Punto de entrada de la aplicación
+          WebConfig               # Configuración CORS
+    resources/
+      application.properties     # Configuración de la aplicación
+```
+
+## Contribución
+
+Al contribuir a este proyecto, asegúrese de seguir los patrones de código existentes y agregar pruebas apropiadas para cualquier nueva funcionalidad.
+
+## Solución de Problemas
+
+Si encuentra conflictos de puerto con PostgreSQL o la aplicación Spring, puede:
+
+1. Verificar si el puerto 8080 está en uso:
+   ```
+   netstat -ano | findstr :8080
+   ```
+2. Terminar el proceso que usa ese puerto:
+   ```
+   taskkill /PID <PID> /F
+   ```
